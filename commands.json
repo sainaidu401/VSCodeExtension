@@ -1,1 +1,95 @@
-
+{
+  "react": {
+    "description": "React with Vite",
+    "npm": ["npm create vite@latest <project-name> -- --template react"],
+    "yarn": ["yarn create vite <project-name> --template react"],
+    "pnpm": ["pnpm create vite <project-name> --template react"]
+  },
+  "vue": {
+    "description": "Vue CLI",
+    "npm": ["npm install -g @vue/cli"],
+    "yarn": ["yarn global add @vue/cli"],
+    "pnpm": ["pnpm add -g @vue/cli"]
+  },
+  "svelte": {
+    "description": "Svelte",
+    "npm": ["npm init svelte@latest <project-name>"],
+    "yarn": ["yarn create svelte <project-name>"],
+    "pnpm": ["pnpm create svelte <project-name>"]
+  },
+  "next": {
+    "description": "Next.js",
+    "npm": ["npx create-next-app@latest <project-name>"],
+    "yarn": ["yarn create next-app <project-name>"],
+    "pnpm": ["pnpm create next-app <project-name>"]
+  },
+  "nuxt": {
+    "description": "Nuxt.js",
+    "npm": ["npx nuxi init <project-name>"],
+    "yarn": ["yarn dlx nuxi init <project-name>"],
+    "pnpm": ["pnpm dlx nuxi init <project-name>"]
+  },
+  "webpack": {
+    "description": "Webpack",
+    "npm": ["npm install --save-dev webpack"],
+    "yarn": ["yarn add --dev webpack"],
+    "pnpm": ["pnpm add -D webpack"]
+  },
+  "parcel": {
+    "description": "Parcel",
+    "npm": ["npm install --save-dev parcel"],
+    "yarn": ["yarn add --dev parcel"],
+    "pnpm": ["pnpm add -D parcel"]
+  },
+  "tailwind": {
+    "description": "Tailwind CSS with Vite",
+    "npm": [
+      "npm install -D tailwindcss @tailwindcss/vite",
+      "npx tailwindcss init"
+    ],
+    "yarn": [
+      "yarn add -D tailwindcss @tailwindcss/vite",
+      "yarn tailwindcss init"
+    ],
+    "pnpm": [
+      "pnpm add -D tailwindcss @tailwindcss/vite",
+      "pnpm exec tailwindcss init"
+    ]
+  },
+  "chakra-ui": {
+    "description": "Chakra UI",
+    "npm": ["npm install @chakra-ui/react @emotion/react"],
+    "yarn": ["yarn add @chakra-ui/react @emotion/react"],
+    "pnpm": ["pnpm add @chakra-ui/react @emotion/react"]
+  },
+  "mui": {
+    "description": "Material UI",
+    "npm": ["npm install @mui/material"],
+    "yarn": ["yarn add @mui/material"],
+    "pnpm": ["pnpm add @mui/material"]
+  },
+  "bootstrap": {
+    "description": "Bootstrap",
+    "npm": ["npm install bootstrap"],
+    "yarn": ["yarn add bootstrap"],
+    "pnpm": ["pnpm add bootstrap"]
+  },
+  "react-router": {
+    "description": "React Router",
+    "npm": ["npm install react-router-dom"],
+    "yarn": ["yarn add react-router-dom"],
+    "pnpm": ["pnpm add react-router-dom"]
+  },
+  "vue-router": {
+    "description": "Vue Router",
+    "npm": ["npm install vue-router"],
+    "yarn": ["yarn add vue-router"],
+    "pnpm": ["pnpm add vue-router"]
+  },
+  "axios": {
+    "description": "Axios HTTP Client",
+    "npm": ["npm install axios"],
+    "yarn": ["yarn add axios"],
+    "pnpm": ["pnpm add axios"]
+  }
+}
