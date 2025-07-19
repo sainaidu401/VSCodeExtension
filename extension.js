@@ -68,8 +68,7 @@ function activate(context) {
     ];
 
     if (features.includes('TailwindCSS')) {
-      commands.push(`${pkgManager} install -D tailwindcss postcss autoprefixer`);
-      commands.push(`npx tailwindcss init -p`);
+      commands.push(`${pkgManager} install tailwindcss @tailwindcss/vite`);
     }
 
     if (features.includes('React Router')) {
@@ -101,30 +100,69 @@ function activate(context) {
     // Run setup commands
     commands.forEach(cmd => terminal.sendText(cmd));
 
-    // Wait to edit files
+    // Wait for install to complete
     setTimeout(() => {
-      // Tailwind: add CSS directives
+      // Tailwind Plugin Configuration
       if (features.includes('TailwindCSS')) {
-        const cssFile = path.join(projectPath, 'src', 'index.css');
-        const tailwindDirectives = `@tailwind base;\n@tailwind components;\n@tailwind utilities;\n`;
+        const viteConfigFile = path.join(
+          projectPath,
+          `vite.config.${language === 'TypeScript' ? 'ts' : 'js'}`
+        );
 
-        fs.appendFile(cssFile, `\n${tailwindDirectives}`, err => {
+        fs.readFile(viteConfigFile, 'utf8', (err, data) => {
           if (err) {
-            vscode.window.showErrorMessage('Failed to insert Tailwind directives.');
+            vscode.window.showErrorMessage('Failed to read vite.config file.');
+            return;
+          }
+
+          let updated = data;
+          if (!updated.includes('@tailwindcss/vite')) {
+            updated = `import tailwindcss from '@tailwindcss/vite';\n` + updated;
+            updated = updated.replace(/plugins:\s*\[/, 'plugins: [\n    tailwindcss(),');
+          }
+
+          fs.writeFile(viteConfigFile, updated, 'utf8', err => {
+            if (err) {
+              vscode.window.showErrorMessage('Failed to update vite.config with Tailwind plugin.');
+            } else {
+              vscode.window.showInformationMessage('vite.config updated with Tailwind plugin.');
+            }
+          });
+        });
+
+        // CSS Import
+        const cssFile = path.join(projectPath, 'src', 'index.css');
+        const importLine = `@import \"tailwindcss\";\n`;
+
+        fs.readFile(cssFile, 'utf8', (err, data) => {
+          if (err) {
+            vscode.window.showErrorMessage('Failed to read index.css');
+            return;
+          }
+
+          if (!data.includes(importLine.trim())) {
+            const updatedCss = importLine + data;
+            fs.writeFile(cssFile, updatedCss, err => {
+              if (err) {
+                vscode.window.showErrorMessage('Failed to insert Tailwind import.');
+              } else {
+                vscode.window.showInformationMessage('Tailwind import added to index.css');
+              }
+            });
           } else {
-            vscode.window.showInformationMessage('Tailwind directives added to index.css');
+            vscode.window.showInformationMessage('Tailwind import already present in index.css');
           }
         });
       }
 
-      // README.md
-      const readme = `# ${projectName}\n\nGenerated with Frontend Stack Starter 🚀\n\n## Language: ${language}\n\n## Tech Stack\n- ${features.join('\n- ')}\n\n## Getting Started\n\`\`\`bash\ncd ${projectName}\n${pkgManager} install\n${pkgManager === 'npm' ? 'npm run dev' : pkgManager + ' dev'}\n\`\`\`\n`;
+      // README.md generation
+      const readme = `# ${projectName}\n\nGenerated with Frontend Stack Starter 🚀\n\n## Language: ${language}\n\n## Tech Stack\n- ${features.join('\n- ')}\n\n## Getting Started\n\n\`\`\`bash\ncd ${projectName}\n${pkgManager} install\n${pkgManager === 'npm' ? 'npm run dev' : pkgManager + ' dev'}\n\`\`\`\n`;
       fs.writeFile(path.join(projectPath, 'README.md'), readme, err => {
         if (!err) {
           vscode.window.showInformationMessage('README.md created');
         }
       });
-    }, 10000);
+    }, 12000);
   });
 
   context.subscriptions.push(disposable);
